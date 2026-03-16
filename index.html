@@ -2,201 +2,194 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pet the Kitty</title>
-
+<title>Interactive Tabby Cat</title>
 <style>
-
 body {
-  margin: 0;
-  height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: white;
-  font-family: monospace;
+  align-items: center;
+  height: 100vh;
+  background: #f0f0f0;
+  margin: 0;
   overflow: hidden;
 }
 
-/* BUTTON */
-
-#catButton {
+/* CAT BASE */
+.cat {
   position: relative;
+  width: 120px;
+  height: 120px;
+  background: white;
+  border-radius: 50%;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-/* PIXEL CAT SPRITE - BASE64 EMBEDDED */
-
-.pixelCat {
-  width: 256px;
-  height: 256px;
-  image-rendering: pixelated;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGFBMVEUAAAD///+ZmZnMzMyZmZnMzMyZmZnMzMzl6uXyAAAAAXRSTlMAQObYZgAAAE1JREFUGNOtzrENgDAMQ9HzB73/P8MQHc5ChR6C1nCwDRFS2iK0SCIEqkwON9JUDvRZScdShFlj9gAAAABJRU5ErkJggg==');
-  background-size: cover;
   transition: transform 0.2s;
+  box-shadow: 
+    -10px -10px 0 -5px orange inset,
+    10px 10px 0 -5px brown inset,
+    0 -10px 0 -5px black inset;
 }
 
-/* EAR WIGGLE */
+/* EARS */
+.cat::before,
+.cat::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  top: -20px;
+  transform: rotate(45deg);
+}
+.cat::before { left: -10px; }
+.cat::after { right: -10px; }
 
-#catButton:hover .pixelCat {
-  animation: wiggle 0.4s infinite alternate;
+/* TAIL */
+.tail {
+  position: absolute;
+  width: 20px;
+  height: 80px;
+  background: linear-gradient(to bottom, orange 30%, brown 30%, black 50%);
+  border-radius: 20px;
+  top: 60px;
+  left: 100px;
+  transform-origin: top center;
+  transform: rotate(20deg);
+  transition: transform 0.3s;
 }
 
+/* EYES */
+.eye {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: black;
+  border-radius: 50%;
+  top: 40px;
+}
+.eye.left { left: 35px; }
+.eye.right { right: 35px; }
+
+/* NOSE */
+.nose {
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  background: pink;
+  border-radius: 50%;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* MOUTH */
+.mouth {
+  position: absolute;
+  width: 30px;
+  height: 5px;
+  border-radius: 50%;
+  border-bottom: 2px solid black;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* SPOTS (tabby) */
+.spot {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: orange;
+  border-radius: 50%;
+}
+.spot1 { top: 20px; left: 20px; }
+.spot2 { top: 30px; right: 25px; }
+.spot3 { top: 60px; left: 50px; }
+
+/* HOVER: wiggle ears */
+.wiggle-ears::before { animation: wiggle 0.3s infinite; }
+.wiggle-ears::after { animation: wiggle 0.3s infinite; }
 @keyframes wiggle {
-  0% { transform: rotate(-2deg); }
-  100% { transform: rotate(2deg); }
-}
-
-/* PURR SHAKE */
-
-@keyframes purr {
-  0% { transform: translate(0,0); }
-  25% { transform: translate(2px,0); }
-  50% { transform: translate(-2px,0); }
-  75% { transform: translate(2px,0); }
-  100% { transform: translate(0,0); }
-}
-
-/* BUTTON TEXT */
-
-#buttonText {
-  position: absolute;
-  text-align: center;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 1.4;
-}
-
-/* PARTICLES */
-
-.particle {
-  position: absolute;
-  pointer-events: none;
-  image-rendering: pixelated;
-}
-
-/* SMALL CAT */
-
-.smallCat {
-  width: 28px;
-  height: 28px;
-  background: #fff;
-  border: 2px solid black;
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(30deg); }
+  100% { transform: rotate(45deg); }
 }
 
 /* HEARTS */
-
 .heart {
-  width: 24px;
-  height: 24px;
-  background: #ff69b4;
-  clip-path: polygon(
-    50% 90%,
-    0% 45%,
-    20% 10%,
-    50% 30%,
-    80% 10%,
-    100% 45%
-  );
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: red;
+  clip-path: polygon(50% 0%, 61% 10%, 70% 20%, 70% 40%, 50% 60%, 30% 40%, 30% 20%, 39% 10%);
+  animation: explode 0.8s forwards;
+}
+@keyframes explode {
+  0% { transform: scale(0) translate(0,0); opacity: 1; }
+  100% { transform: scale(1.5) translate(var(--x), var(--y)); opacity: 0; }
 }
 
-.heart.dark {
-  background: #ff1493;
-}
-
-/* FINAL MESSAGE */
-
+/* THANKS MESSAGE */
 #thanks {
   position: absolute;
-  font-size: 42px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
   font-weight: bold;
   color: black;
-  display: none;
   text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  font-size: 2vw;
+  transition: transform 5s ease-out, opacity 5s ease-out, width 5s ease-out, font-size 5s ease-out;
+  white-space: nowrap;
 }
-
 </style>
 </head>
-
 <body>
 
-<div id="catButton">
-  <div class="pixelCat"></div>
-  <div id="buttonText">
-    click here<br>
-    to pet<br>
-    the kitty
-  </div>
+<div class="cat" id="cat">
+  <div class="eye left"></div>
+  <div class="eye right"></div>
+  <div class="nose"></div>
+  <div class="mouth"></div>
+  <div class="spot spot1"></div>
+  <div class="spot spot2"></div>
+  <div class="spot spot3"></div>
+  <div class="tail"></div>
 </div>
 
-<div id="thanks">
-  wow, Sara! thank you for petting the kitty!!
-</div>
+<div id="thanks">Thank you for petting the kitty!!</div>
 
 <script>
+const cat = document.getElementById('cat');
+const thanks = document.getElementById('thanks');
 
-const button = document.getElementById("catButton");
-const thanks = document.getElementById("thanks");
+// Hover: ears wiggle
+cat.addEventListener('mouseenter', () => cat.classList.add('wiggle-ears'));
+cat.addEventListener('mouseleave', () => cat.classList.remove('wiggle-ears'));
 
-button.addEventListener("click", () => {
+// Click: purr + hearts + show message
+cat.addEventListener('click', () => {
+  if (navigator.vibrate) navigator.vibrate(50);
 
-  /* PURR */
-  button.style.animation = "purr 0.1s 20";
+  // Create hearts
+  for (let i = 0; i < 8; i++) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.setProperty('--x', `${Math.random()*100-50}px`);
+    heart.style.setProperty('--y', `${Math.random()*-100}px`);
+    cat.appendChild(heart);
+    setTimeout(() => heart.remove(), 800);
+  }
 
-  /* wait for purr before explosion */
-  setTimeout(() => {
-
-    const rect = button.getBoundingClientRect();
-    button.style.visibility = "hidden";
-
-    /* PARTICLES */
-    for(let i = 0; i < 350; i++) {
-
-      let p = document.createElement("div");
-      p.classList.add("particle");
-
-      if(Math.random() < 0.6){
-        p.classList.add("smallCat");
-      } else {
-        p.classList.add("heart");
-        if(Math.random() < 0.5) p.classList.add("dark");
-      }
-
-      p.style.left = rect.left + rect.width/2 + "px";
-      p.style.top = rect.top + rect.height/2 + "px";
-
-      document.body.appendChild(p);
-
-      let angle = Math.random() * 2 * Math.PI;
-      let distance = Math.random() * 700;
-
-      p.animate(
-        [
-          { transform: "translate(-50%,-50%) scale(1)", opacity: 1 },
-          { transform: `translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px) scale(0.1)`, opacity: 0 }
-        ],
-        {
-          duration: 10000,
-          easing: "ease-out",
-          fill: "forwards"
-        }
-      );
-
-      setTimeout(() => p.remove(), 10000);
-    }
-
-    /* show text after animation */
-    setTimeout(() => {
-      thanks.style.display = "block";
-    }, 10000);
-
-  }, 800);
-
+  // Show thanks message gradually
+  thanks.style.opacity = 1;
+  thanks.style.transform = 'translate(-50%, -50%) scale(1)';
+  thanks.style.width = '72vw';       // grow width
+  thanks.style.fontSize = '8vw';     // grow font size
 });
-
 </script>
 
 </body>
