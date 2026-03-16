@@ -6,163 +6,116 @@
 
 <style>
 
-body{
-margin:0;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:white;
-font-family:monospace;
-overflow:hidden;
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  font-family: monospace;
+  overflow: hidden;
 }
 
 /* BUTTON */
 
-#catButton{
-position:relative;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
+#catButton {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 /* PIXEL CAT SPRITE */
 
-.pixelCat{
-
-width:256px;
-height:256px;
-
-background:white;
-
-image-rendering:pixelated;
-
-/* pixel drawing */
-
-box-shadow:
-
-/* ears */
-64px 0px #000,
-80px 0px #d18b2c,
-96px 0px #ffffff,
-160px 0px #ffffff,
-176px 0px #d18b2c,
-192px 0px #000,
-
-/* head outline */
-48px 32px #000,
-64px 32px #ffffff,
-80px 32px #d18b2c,
-96px 32px #ffffff,
-112px 32px #ffffff,
-128px 32px #ffffff,
-144px 32px #ffffff,
-160px 32px #d18b2c,
-176px 32px #ffffff,
-192px 32px #000,
-
-/* eyes */
-96px 96px #000,
-112px 96px #000,
-144px 96px #000,
-160px 96px #000,
-
-/* nose */
-128px 128px #ffb6c1,
-
-/* mouth */
-112px 144px #000,
-144px 144px #000,
-
-/* tabby stripes */
-80px 80px #6a3f1a,
-96px 80px #d18b2c,
-160px 80px #6a3f1a,
-144px 80px #d18b2c;
-
-transition:transform 0.2s;
-
+.pixelCat {
+  width: 256px;
+  height: 256px;
+  image-rendering: pixelated;
+  background-image: url('pixel-cat.png'); /* small 16x16 pixel cat */
+  background-size: cover;
+  transition: transform 0.2s;
 }
 
 /* EAR WIGGLE */
 
-#catButton:hover .pixelCat{
-animation:wiggle 0.4s infinite alternate;
+#catButton:hover .pixelCat {
+  animation: wiggle 0.4s infinite alternate;
 }
 
-@keyframes wiggle{
-0%{transform:rotate(-2deg);}
-100%{transform:rotate(2deg);}
+@keyframes wiggle {
+  0% { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
 }
 
 /* PURR SHAKE */
 
-@keyframes purr{
-0%{transform:translate(0,0);}
-25%{transform:translate(2px,0);}
-50%{transform:translate(-2px,0);}
-75%{transform:translate(2px,0);}
-100%{transform:translate(0,0);}
+@keyframes purr {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2px,0); }
+  50% { transform: translate(-2px,0); }
+  75% { transform: translate(2px,0); }
+  100% { transform: translate(0,0); }
 }
 
 /* BUTTON TEXT */
 
-#buttonText{
-position:absolute;
-text-align:center;
-font-weight:bold;
-font-size:18px;
-line-height:1.4;
+#buttonText {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1.4;
 }
 
 /* PARTICLES */
 
-.particle{
-position:absolute;
-pointer-events:none;
-image-rendering:pixelated;
+.particle {
+  position: absolute;
+  pointer-events: none;
+  image-rendering: pixelated;
 }
 
 /* SMALL CAT */
 
-.smallCat{
-width:28px;
-height:28px;
-background:#fff;
-border:2px solid black;
+.smallCat {
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border: 2px solid black;
 }
 
 /* HEARTS */
 
-.heart{
-width:24px;
-height:24px;
-background:#ff69b4;
-clip-path:polygon(
-50% 90%,
-0% 45%,
-20% 10%,
-50% 30%,
-80% 10%,
-100% 45%
-);
+.heart {
+  width: 24px;
+  height: 24px;
+  background: #ff69b4;
+  clip-path: polygon(
+    50% 90%,
+    0% 45%,
+    20% 10%,
+    50% 30%,
+    80% 10%,
+    100% 45%
+  );
 }
 
-.heart.dark{
-background:#ff1493;
+.heart.dark {
+  background: #ff1493;
 }
 
 /* FINAL MESSAGE */
 
-#thanks{
-position:absolute;
-font-size:42px;
-font-weight:bold;
-color:black;
-display:none;
-text-align:center;
+#thanks {
+  position: absolute;
+  font-size: 42px;
+  font-weight: bold;
+  color: black;
+  display: none;
+  text-align: center;
 }
 
 </style>
@@ -171,93 +124,76 @@ text-align:center;
 <body>
 
 <div id="catButton">
-
-<div class="pixelCat"></div>
-
-<div id="buttonText">
-click here<br>
-to pet<br>
-the kitty
-</div>
-
+  <div class="pixelCat"></div>
+  <div id="buttonText">
+    click here<br>
+    to pet<br>
+    the kitty
+  </div>
 </div>
 
 <div id="thanks">
-thank you for petting the kitty!!
+  thank you for petting the kitty!!
 </div>
 
 <script>
 
-const button=document.getElementById("catButton");
-const thanks=document.getElementById("thanks");
+const button = document.getElementById("catButton");
+const thanks = document.getElementById("thanks");
 
-button.addEventListener("click",()=>{
+button.addEventListener("click", () => {
 
-/* PURR */
+  /* PURR */
+  button.style.animation = "purr 0.1s 20";
 
-button.style.animation="purr 0.1s 20";
+  /* wait for purr before explosion */
+  setTimeout(() => {
 
-/* wait for purr before explosion */
+    const rect = button.getBoundingClientRect();
+    button.style.visibility = "hidden";
 
-setTimeout(()=>{
+    /* PARTICLES */
+    for(let i = 0; i < 350; i++) {
 
-const rect=button.getBoundingClientRect();
+      let p = document.createElement("div");
+      p.classList.add("particle");
 
-button.style.visibility="hidden";
+      if(Math.random() < 0.6){
+        p.classList.add("smallCat");
+      } else {
+        p.classList.add("heart");
+        if(Math.random() < 0.5) p.classList.add("dark");
+      }
 
-/* PARTICLES */
+      p.style.left = rect.left + rect.width/2 + "px";
+      p.style.top = rect.top + rect.height/2 + "px";
 
-for(let i=0;i<350;i++){
+      document.body.appendChild(p);
 
-let p=document.createElement("div");
+      let angle = Math.random() * 2 * Math.PI;
+      let distance = Math.random() * 700;
 
-p.classList.add("particle");
+      p.animate(
+        [
+          { transform: "translate(-50%,-50%) scale(1)", opacity: 1 },
+          { transform: `translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px) scale(0.1)`, opacity: 0 }
+        ],
+        {
+          duration: 10000,
+          easing: "ease-out",
+          fill: "forwards"
+        }
+      );
 
-if(Math.random()<0.6){
+      setTimeout(() => p.remove(), 10000);
+    }
 
-p.classList.add("smallCat");
+    /* show text after animation */
+    setTimeout(() => {
+      thanks.style.display = "block";
+    }, 10000);
 
-}else{
-
-p.classList.add("heart");
-
-if(Math.random()<0.5)p.classList.add("dark");
-
-}
-
-p.style.left=rect.left+rect.width/2+"px";
-p.style.top=rect.top+rect.height/2+"px";
-
-document.body.appendChild(p);
-
-let angle=Math.random()*2*Math.PI;
-let distance=Math.random()*700;
-
-p.animate(
-[
-{transform:"translate(-50%,-50%) scale(1)",opacity:1},
-{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px) scale(0.1)`,opacity:0}
-],
-{
-duration:10000,
-easing:"ease-out",
-fill:"forwards"
-}
-);
-
-setTimeout(()=>p.remove(),10000);
-
-}
-
-/* show text after animation */
-
-setTimeout(()=>{
-
-thanks.style.display="block";
-
-},10000);
-
-},800);
+  }, 800);
 
 });
 
