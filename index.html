@@ -6,6 +6,7 @@
 <style>
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -145,6 +146,22 @@ body {
   transition: transform 5s ease-out, opacity 5s ease-out, width 5s ease-out, font-size 5s ease-out;
   white-space: nowrap;
 }
+
+/* PET THE KITTY TEXT */
+#petText {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  animation: blinkPulse 1s infinite alternate;
+  display: inline-block;
+}
+
+/* blink + pulse animation */
+@keyframes blinkPulse {
+  0% { color: #c71585; transform: scale(1); }
+  50% { color: #000000; transform: scale(1.1); }
+  100% { color: #c71585; transform: scale(1); }
+}
 </style>
 </head>
 <body>
@@ -160,6 +177,7 @@ body {
   <div class="tail"></div>
 </div>
 
+<div id="petText">Click here to pet the kitty</div>
 <div id="thanks">Thank you for petting the kitty!!</div>
 
 <script>
@@ -187,8 +205,8 @@ cat.addEventListener('click', () => {
   // Show thanks message gradually
   thanks.style.opacity = 1;
   thanks.style.transform = 'translate(-50%, -50%) scale(1)';
-  thanks.style.width = '72vw';       // grow width
-  thanks.style.fontSize = '8vw';     // grow font size
+  thanks.style.width = '72vw';
+  thanks.style.fontSize = '8vw';
 });
 </script>
 
